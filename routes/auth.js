@@ -1,44 +1,76 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const express = require("express");
+const router = express.Router();
+const { register, login, getMe } = require("../controllers/authController");
+const { protect } = require("../middleware/auth");
+const { validate, schemas } = require("../middleware/validate");
 
-// Verify JWT and attach user to request
-const protect = async (req, res, next) => {
-  try {
-    let token;
+/**
+ * @swagger
+ * tags:
+ *   name: Auth
+ *   description: Registration and login
+ */
 
-    if (req.headers.authorization?.startsWith('Bearer ')) {
-      token = req.headers.authorization.split(' ')[1];
-    }
+/**
+ * @swagger
+ * /auth/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Auth]
+ *     security: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [name, email, password]
+ *             properties:
+ *               name:     { type: string, example: Alice Smith }
+ *               email:    { type: string, example: alice@example.com }
+ *               password: { type: string, example: secret123 }
+ *               role:     { type: string, enum: [member, librarian, admin], example: member }
+ *               phone:    { type: string }
+ *               address:  { type: string }
+ *     responses:
+ *       201: { description: Registered successfully }
+ *       409: { description: Email already exists }
+ */
+router.post("/register", validate(schemas.register), register);
 
-    if (!token) {
-      return res.status(401).json({ success: false, message: 'Not authorized. No token provided.' });
-    }
+/**
+ * @swagger
+ * /auth/login:
+ *   post:
+ *     summary: Login and receive a JWT
+ *     tags: [Auth]
+ *     security: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [email, password]
+ *             properties:
+ *               email:    { type: string, example: alice@example.com }
+ *               password: { type: string, example: secret123 }
+ *     responses:
+ *       200: { description: Login successful, token returned }
+ *       401: { description: Invalid credentials }
+ */
+router.post("/login", validate(schemas.login), login);
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id).select('-password');
+/**
+ * @swagger
+ * /auth/me:
+ *   get:
+ *     summary: Get the currently authenticated user
+ *     tags: [Auth]
+ *     responses:
+ *       200: { description: Current user info }
+ *       401: { description: Unauthorized }
+ */
+router.get("/me", protect, getMe);
 
-    if (!user || !user.isActive) {
-      return res.status(401).json({ success: false, message: 'User not found or deactivated.' });
-    }
-
-    req.user = user;
-    next();
-  } catch (error) {
-    return res.status(401).json({ success: false, message: 'Invalid or expired token.' });
-  }
-};
-
-// Restrict to specific roles
-const authorize = (...roles) => {
-  return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      return res.status(403).json({
-        success: false,
-        message: `Access denied. Required role(s): ${roles.join(', ')}.`,
-      });
-    }
-    next();
-  };
-};
-
-module.exports = { protect, authorize };
+module.exports = router;
