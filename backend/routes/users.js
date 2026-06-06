@@ -1,10 +1,14 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const {
-  getUsers, getUser, updateUser, deleteUser, getUserBorrows,
-} = require('../controllers/userController');
-const { protect, authorize } = require('../middleware/auth');
-const { validate, schemas } = require('../middleware/validate');
+  getUsers,
+  getUser,
+  updateUser,
+  deleteUser,
+  getUserBorrows,
+} = require("../../controllers/userController");
+const { protect, authorize } = require("../../middleware/auth");
+const { validate, schemas } = require("../../middleware/validate");
 
 /**
  * @swagger
@@ -29,7 +33,7 @@ const { validate, schemas } = require('../middleware/validate');
  *     responses:
  *       200: { description: List of users }
  */
-router.get('/', protect, authorize('librarian', 'admin'), getUsers);
+router.get("/", protect, authorize("librarian", "admin"), getUsers);
 
 /**
  * @swagger
@@ -46,7 +50,7 @@ router.get('/', protect, authorize('librarian', 'admin'), getUsers);
  *       200: { description: User details }
  *       404: { description: Not found }
  */
-router.get('/:id', protect, getUser);
+router.get("/:id", protect, getUser);
 
 /**
  * @swagger
@@ -71,7 +75,7 @@ router.get('/:id', protect, getUser);
  *     responses:
  *       200: { description: Updated }
  */
-router.put('/:id', protect, validate(schemas.updateUser), updateUser);
+router.put("/:id", protect, validate(schemas.updateUser), updateUser);
 
 /**
  * @swagger
@@ -87,7 +91,7 @@ router.put('/:id', protect, validate(schemas.updateUser), updateUser);
  *     responses:
  *       200: { description: Deactivated }
  */
-router.delete('/:id', protect, authorize('admin'), deleteUser);
+router.delete("/:id", protect, authorize("admin"), deleteUser);
 
 /**
  * @swagger
@@ -103,6 +107,6 @@ router.delete('/:id', protect, authorize('admin'), deleteUser);
  *     responses:
  *       200: { description: Borrow history }
  */
-router.get('/:id/borrows', protect, getUserBorrows);
+router.get("/:id/borrows", protect, getUserBorrows);
 
 module.exports = router;
