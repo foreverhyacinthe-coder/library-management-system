@@ -5,7 +5,7 @@ const swaggerUi = require("swagger-ui-express");
 
 const connectDB = require("./config/db");
 const swaggerSpec = require("./config/swagger");
-const errorHandler = require("../middleware/errorHandler");
+const errorHandler = require("./middleware/errorHandler");
 
 const authRoutes = require("./routes/auth");
 const bookRoutes = require("./routes/books");
