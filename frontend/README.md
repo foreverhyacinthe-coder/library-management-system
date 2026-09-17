@@ -1,18 +1,212 @@
-# React + Vite
+#  Library Management System — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web interface for the **Library Management System**, built with **React** and **Vite**.
 
-Currently, two official plugins are available:
+The frontend provides an interface for members, librarians, and administrators to interact with the library system through the backend REST API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+##  Getting Started
 
-## React Compiler
+### 1. Install dependencies
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+```bash
+npm install
+```
 
-Note: This will impact Vite dev & build performances.
+### 2. Configure the backend URL
 
-## Expanding the ESLint configuration
+Create a `.env` file if your project uses environment variables for the API URL.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Example:
+
+```env
+VITE_API_URL=http://localhost:3000/api
+```
+
+Make sure the backend server is running before using features that require API access.
+
+### 3. Run the development server
+
+```bash
+npm run dev
+```
+
+The frontend will normally be available at:
+
+```text
+http://localhost:5173
+```
+
+### 4. Build for production
+
+```bash
+npm run build
+```
+
+To preview the production build:
+
+```bash
+npm run preview
+```
+
+##  Technologies
+
+* React
+* Vite
+* JavaScript
+* CSS
+* React Router
+* REST API
+
+Additional libraries used by the project can be found in `package.json`.
+
+##  Features
+
+###  Authentication
+
+* User registration
+* User login
+* JWT-based authentication
+* Protected pages
+* Role-based access
+
+###  Books
+
+* Browse books
+* Search books
+* Filter books
+* View book details
+* Check book availability
+
+###  Borrowing
+
+* Borrow books
+* Return books
+* View borrowing history
+* View overdue books
+* View fines
+
+###  User Management
+
+Depending on the user's role:
+
+* View profile
+* Update profile
+* Manage members
+* Manage user roles
+
+###  Dashboard
+
+The dashboard provides information about library activity, such as:
+
+* Total books
+* Available books
+* Borrowed books
+* Registered members
+* Borrowing activity
+* Fines
+
+##  User Roles
+
+### Member
+
+Members can:
+
+* Browse and search books
+* View book details
+* Borrow books
+* Return books
+* View borrowing history
+* View fines
+
+### Librarian
+
+Librarians can:
+
+* Manage books
+* View members
+* Issue books
+* Process returns
+* Manage fines
+* View library activity
+
+### Administrator
+
+Administrators can:
+
+* Manage books
+* Manage users
+* Manage user roles
+* Delete books
+* Access administrative functionality
+
+##  Project Structure
+
+```text
+frontend/
+│
+├── public/
+│
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── pages/
+│   ├── services/
+│   ├── hooks/
+│   ├── App.jsx
+│   └── main.jsx
+│
+├── .env
+├── package.json
+├── package-lock.json
+├── vite.config.js
+└── README.md
+```
+
+> The exact structure may vary depending on the current implementation.
+
+##  Backend Connection
+
+The frontend communicates with the backend through REST API endpoints.
+
+The backend should be running at:
+
+```text
+http://localhost:3000
+```
+
+The frontend API base URL can be configured using:
+
+```env
+VITE_API_URL=http://localhost:3000/api
+```
+
+For example, the frontend may communicate with endpoints such as:
+
+```text
+GET    /api/books
+POST   /api/books
+GET    /api/books/:id
+POST   /api/borrows
+PUT    /api/borrows/:id/return
+GET    /api/users/:id/borrows
+```
+
+##  Development
+
+Start the frontend:
+
+```bash
+npm run dev
+```
+
+Start the backend separately:
+
+```bash
+npm run dev
+```
+
+The frontend and backend run as separate applications during development.
+
+##  Project Status
+
+**Frontend development in progress.**
