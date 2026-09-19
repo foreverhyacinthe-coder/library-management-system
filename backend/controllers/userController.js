@@ -1,5 +1,5 @@
-const User = require("../backend/node_modules/models/User");
-const Borrow = require("../backend/node_modules/models/Borrow");
+const User = require("../models/User");
+const Borrow = require("../models/Borrow");
 
 // GET /api/users  — admin/librarian only
 exports.getUsers = async (req, res, next) => {
