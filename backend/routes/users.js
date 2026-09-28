@@ -6,9 +6,9 @@ const {
   updateUser,
   deleteUser,
   getUserBorrows,
-} = require("../../controllers/userController");
-const { protect, authorize } = require("../../middleware/auth");
-const { validate, schemas } = require("../../middleware/validate");
+} = require("../controllers/userController");
+const { protect, authorize } = require("../middleware/auth");
+const { validate, schemas } = require("../middleware/validate");
 
 /**
  * @swagger
